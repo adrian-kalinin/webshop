@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+        {% block title %}
+            Blank
+        {% endblock %}
+    </title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+    <div x-data="{ cartOpen: false , isOpen: false }" class="bg-white">
+        <style>
+            [x-cloak] { display: none }
+        </style>
+
+        <div class="flex flex-col h-screen justify-between">
+            {% include 'navbar.html' %}
+
+            <main class="container mx-auto px-6 py-3">
+                {% block content %}
+                    <h1>Empty Page</h1>
+                {% endblock %}
+            </main>
+
+            <div class="flex-1"></div> <!-- here -->
+
+            {% include 'footer.html' %}
+        </div>
+
+        {% include 'cart.html' %}
+    </div>
+
+</body>
+</html>
