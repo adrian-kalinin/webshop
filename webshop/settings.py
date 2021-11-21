@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_tailwind',
 
-    'catalogue.apps.CatalogueConfig'
+    'catalogue.apps.CatalogueConfig',
+    'accounts.apps.AccountsConfig'
 ]
 
 MIDDLEWARE = [
@@ -88,6 +89,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+AUTH_USER_MODEL = 'accounts.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = 'login/'
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
