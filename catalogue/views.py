@@ -12,9 +12,7 @@ class ProductListView(generic.ListView):
 
     def get_queryset(self):
         if query := self.request.GET.get('q'):
-            if len(query) == 5 and query.isdigit():
-                return Product.objects.filter(product_code=query)
-            return Product.objects.filter(Q(title__contains=query))
+            return Product.objects.filter(Q(title__contains=query) | Q(product_code__exact=query))
         else:
             return Product.objects.all()
 
