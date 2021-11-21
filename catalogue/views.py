@@ -1,5 +1,6 @@
 from django.shortcuts import reverse
 from django.views import generic
+from django.db.models import Q
 
 from .models import Product
 from .forms import ProductModelForm
@@ -8,7 +9,14 @@ from .forms import ProductModelForm
 class ProductListView(generic.ListView):
     template_name = 'catalogue/product_list.html'
     context_object_name = 'products'
-    queryset = Product.objects.all()
+
+    def get_queryset(self):
+        if query := self.request.GET.get('q'):
+            if len(query) == 5 and query.isdigit():
+                return Product.objects.filter(product_code=query)
+            return Product.objects.filter(Q(title__contains=query))
+        else:
+            return Product.objects.all()
 
 
 class ProductDetailView(generic.DetailView):
