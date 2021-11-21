@@ -1,2 +1,3 @@
-# ebshop
-Trial work at Nordhealth.
+# Webshop
+
+An online shop built with Django.
