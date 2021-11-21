@@ -12,11 +12,8 @@ if READ_DOT_ENV_FILE:
     env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 SECRET_KEY = env('SECRET_KEY')
-
 DEBUG = env('DEBUG')
-
 
 ALLOWED_HOSTS = []
 
@@ -27,6 +24,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'crispy_forms',
+    'crispy_tailwind',
 
     'catalogue.apps.CatalogueConfig'
 ]
@@ -83,23 +83,17 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-
 STATIC_URL = '/static/'
-
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = BASE_DIR / 'media'
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'tailwind'
+CRISPY_TEMPLATE_PACK = 'tailwind'

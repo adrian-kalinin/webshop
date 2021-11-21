@@ -4,7 +4,7 @@ from django.db import models
 class Product(models.Model):
     product_code = models.CharField(max_length=10, editable=False, null=True, unique=True)
     title = models.CharField(max_length=80)
-    description = models.CharField(max_length=1000, blank=True)
+    description = models.TextField(blank=True)
     price = models.DecimalField(decimal_places=2, max_digits=12)
     image = models.ImageField(upload_to='images/')
 

@@ -4,8 +4,11 @@
     Catalogue
 {% endblock %}
 
-{% block content %}
+{% block header %}
+    {% include 'search.html' %}
+{% endblock %}
 
+{% block content %}
     <div class="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 md:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
 
         {% for product in products %}
@@ -17,7 +20,7 @@
                 <div class="mt-4 flex justify-between">
                     <div>
                         <h3 class="text-sm text-gray-700">
-                            <a href="{% url 'catalogue:detail' product.product_code %}">
+                            <a href="{% url 'catalogue:product-detail' product.product_code %}">
                                 <span aria-hidden="true" class="absolute inset-0"></span>
                                 {{ product.title }}
                             </a>
