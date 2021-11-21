@@ -11,10 +11,20 @@ class ProductListView(generic.ListView):
     context_object_name = 'products'
 
     def get_queryset(self):
+        queryset = Product.objects.all()
+
         if query := self.request.GET.get('q'):
-            return Product.objects.filter(Q(title__contains=query) | Q(product_code__exact=query))
-        else:
-            return Product.objects.all()
+            queryset = queryset.filter(Q(title__contains=query) | Q(product_code__exact=query))
+
+        sort_value = self.request.GET.get('sort') or '-created_at'
+
+        return queryset.order_by(sort_value)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context_data = super(ProductListView, self).get_context_data(**kwargs)
+        context_data['search_value'] = self.request.GET.get('q')
+        context_data['sort_value'] = self.request.GET.get('sort')
+        return context_data
 
 
 class ProductDetailView(generic.DetailView):
