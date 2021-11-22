@@ -1,5 +1,6 @@
 from django.shortcuts import reverse
 from django.views import generic
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
 
 from .models import Product
@@ -36,17 +37,19 @@ class ProductDetailView(generic.DetailView):
         return Product.objects.get(product_code=product_code)
 
 
-class ProductCreateView(generic.CreateView):
+class ProductCreateView(PermissionRequiredMixin, generic.CreateView):
     template_name = 'catalogue/product_create.html'
     form_class = ProductModelForm
+    permission_required = 'user.is_staff'
 
     def get_success_url(self):
         return reverse('catalogue:list')
 
 
-class ProductUpdateView(generic.UpdateView):
+class ProductUpdateView(PermissionRequiredMixin, generic.UpdateView):
     template_name = 'catalogue/product_update.html'
     form_class = ProductModelForm
+    permission_required = 'user.is_staff'
 
     def get_object(self, queryset=None):
         pc = self.kwargs.get('product_code')
@@ -56,8 +59,9 @@ class ProductUpdateView(generic.UpdateView):
         return reverse('catalogue:product-detail', kwargs={'product_code': self.kwargs.get('product_code')})
 
 
-class ProductDeleteView(generic.DeleteView):
+class ProductDeleteView(PermissionRequiredMixin, generic.DeleteView):
     template_name = 'catalogue/product_delete.html'
+    permission_required = 'user.is_staff'
 
     def get_object(self, queryset=None):
         pc = self.kwargs.get('product_code')
