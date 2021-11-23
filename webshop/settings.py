@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     'crispy_tailwind',
 
     'catalogue.apps.CatalogueConfig',
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'shopping_cart.apps.ShoppingCartConfig'
 ]
 
 MIDDLEWARE = [

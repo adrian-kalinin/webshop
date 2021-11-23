@@ -1,3 +1,114 @@
+<script>
+    // Getting a specific cookie
+    function getCookie(name) {
+        let cookieValue = null;
+
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+
+        return cookieValue;
+    }
+
+    // Displaying items in the shopping cart
+    let displayItems = (items) => {
+        let items_tag = document.querySelector('#items')
+        let checkout_tag = document.querySelector('#checkout')
+
+        items_tag.innerHTML = ""
+
+        if (items.length) {
+            checkout_tag.classList.remove('hidden')
+            let total_price = 0
+
+            items.forEach(item => {
+                items_tag.insertAdjacentHTML('beforeend',
+                    `
+                    <div class="flex justify-between mt-6">
+                        <div class="flex">
+                            <img class="h-20 w-20 object-cover rounded" src="${item['image']}" alt="">
+                            <div class="mx-3">
+                                <h3 class="text-sm text-gray-600">${item['title']}</h3>
+                                <div class="flex items-center mt-2">
+                                    <button onclick="addItemToCart(${item['product_id']})" class="text-gray-500 focus:outline-none focus:text-gray-600">
+                                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </button>
+                                    <span class="text-gray-700 mx-2">${item['quantity']}</span>
+                                    <button onclick="removeItemFromCart(${item['product_id']})" class="text-gray-500 focus:outline-none focus:text-gray-600">
+                                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="text-gray-600">${item['price'] * item['quantity']} €</span>
+                    </div>
+                    `)
+                total_price += item['price'] * item['quantity']
+            })
+
+            items_tag.insertAdjacentHTML('beforeend',
+                `<p class="text-md text-gray-700 my-4">Total: ${total_price} €</p>`
+            )
+
+        } else {
+            checkout_tag.classList.add('hidden')
+
+            items_tag.insertAdjacentHTML('beforebegin',
+                `<p class="text-md text-gray-700">Nothing here yet</p>`
+            )
+        }
+    }
+
+    // Refreshing shopping cart
+    async function refreshItems() {
+        let response = await fetch('{% url 'shopping_cart:get-items' %}')
+        let data = await response.json()
+
+        displayItems(data['items'])
+    }
+
+    // Adding an item to the shopping cart
+    let addItemToCart = (productId) => {
+        fetch('{% url 'shopping_cart:add-item' %}', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({'product_id': productId})
+        }).then(() => refreshItems())
+
+        let xData = document.querySelector("#x-data")
+        xData.setAttribute('x-data', '{ cartOpen: true , isOpen: true }')
+
+    }
+
+    // Removing an item from the shopping cart
+    let removeItemFromCart = (productId) => {
+        fetch('{% url 'shopping_cart:remove-item' %}', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({'product_id': productId})
+        }).then(() => refreshItems())
+    }
+
+    // Receive and display items in the shopping cart when page is loaded
+    window.onload = refreshItems
+</script>
+
 <!-- Shopping cart -->
 <div x-cloak :class="cartOpen ? 'translate-x-0 ease-out' : 'translate-x-full ease-in'" class="fixed right-0 top-0 max-w-xs w-full h-full px-6 py-4 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300" style="z-index: 999">
 
@@ -11,28 +122,11 @@
     <hr class="my-3">
 
     <!-- Item -->
-    <div class="flex justify-between mt-6">
-        <div class="flex">
-            <img class="h-20 w-20 object-cover rounded" src="/media/images/green-t-shirt_JHlaQEL.jpeg" alt="">
-            <div class="mx-3">
-                <h3 class="text-sm text-gray-600">Green T-Shirt</h3>
-                <div class="flex items-center mt-2">
-                    <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </button>
-                    <span class="text-gray-700 mx-2">1</span>
-                    <button class="text-gray-500 focus:outline-none focus:text-gray-600">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <span class="text-gray-600">25 €</span>
-    </div>
+    <div id="items" class="w-full"></div>
 
     <!-- Checkout -->
-    <a class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+    <button onclick="alert('Checkout is not available, because this online shop is not real :)')" id="checkout" class="flex items-center justify-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
         <span>Checkout</span>
         <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-    </a>
+    </button>
 </div>
