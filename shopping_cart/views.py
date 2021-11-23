@@ -24,8 +24,6 @@ class AddItemView(LoginRequiredMixin, View):
                 product = Product.objects.get(id=product_id)
                 cart.items.create(product=product, quantity=1)
 
-            cart.save()
-
             return HttpResponse()
 
         return HttpResponseBadRequest()
@@ -48,8 +46,6 @@ class RemoveItemView(LoginRequiredMixin, View):
                 else:
                     item.delete()
 
-            cart.save()
-
             return HttpResponse()
 
         return HttpResponseBadRequest()
@@ -60,7 +56,7 @@ class GetItemsView(LoginRequiredMixin, View):
         cart = Cart.objects.get(user_id=request.user.id)
         items = cart.items.all()
 
-        # Serializers from DRF should be used here, but I didn't want to make things complicated
+        # A serializer from DRF should be used here, but I didn't want to make things complicated here
         data = {'items': []}
 
         for item in items:

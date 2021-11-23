@@ -26,4 +26,4 @@ class Cart(models.Model):
         return sum([item.product.price * item.quantity for item in self.items.all()])
 
     def __str__(self):
-        return f'{self.get_total_quantity()} items ({self.user.username})'
+        return f'{self.get_total_quantity()} items for {self.get_total_price()} € ({self.user.username})'
