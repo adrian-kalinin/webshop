@@ -14,7 +14,7 @@ if READ_DOT_ENV_FILE:
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = env.bool('DEBUG')
+DEBUG = env('DEBUG') == 'True'
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
