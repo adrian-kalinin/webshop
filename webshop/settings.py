@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'www.ejemplo.com', 'webshop-bgl76.ondigitalocean.app', 'www.webshop-bgl76.ondigitalocean.app']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'webshop-bgl76.ondigitalocean.app', 'www.webshop-bgl76.ondigitalocean.app']
 
 INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
