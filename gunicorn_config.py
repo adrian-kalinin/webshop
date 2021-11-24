@@ -1,5 +1,8 @@
+from pathlib import Path
+
+
 command = '/usr/bin/gunicorn'
-pythonpath = ''
+pythonpath = str(Path(__file__).resolve())
 bind = '0.0.0.0:8080'
 
 workers = 3
