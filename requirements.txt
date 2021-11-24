@@ -2,3 +2,4 @@ Django~=3.2.9
 django-environ~=0.8.1
 django-crispy-forms~=1.13.0
 crispy-tailwind~=0.5.0
+whitenoise~=5.3.0
