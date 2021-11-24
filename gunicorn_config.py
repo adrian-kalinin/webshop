@@ -1,5 +1,5 @@
-bind = '0.0.0.0:8080'
-workers = 1
+bind = '127.0.0.1:8080'
+workers = 2
 worker_connections = 1000
 timeout = 1200
 worker_class = 'gevent'
