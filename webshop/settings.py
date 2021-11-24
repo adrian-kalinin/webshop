@@ -14,12 +14,11 @@ if READ_DOT_ENV_FILE:
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = env('DEBUG')
+DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'webshop-bgl76.ondigitalocean.app', 'www.webshop-bgl76.ondigitalocean.app']
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
