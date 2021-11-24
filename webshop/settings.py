@@ -1,5 +1,6 @@
 from pathlib import Path
 import environ
+import os
 
 
 env = environ.Env(
@@ -135,4 +136,4 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
     X_FRAME_OPTIONS = "DENY"
 
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
