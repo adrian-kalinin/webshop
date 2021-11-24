@@ -41,7 +41,9 @@
             </footer>
         </div>
 
-        {% include 'cart.html' %}
+        {% if user.is_authenticated %}
+            {% include 'cart.html' %}
+        {% endif %}
     </div>
 
 </body>
