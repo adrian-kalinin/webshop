@@ -16,7 +16,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG') == 'True'
 
-# ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -134,3 +133,23 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     X_FRAME_OPTIONS = "DENY"
+
+    AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+
+    AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_ENDPOINT_URL = env('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+
+    AWS_DEFAULT_ACL = 'public-read'
+
+    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+
+    STATIC_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, 'static')
+    STATIC_ROOT = 'static/'
+
+    MEDIA_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, 'media')
+    MEDIA_ROOT = 'media/'
