@@ -99,12 +99,12 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = 'login/'
 
-STATIC_URL = '/public/static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 STATICFILES_DIRS = [str(BASE_DIR / 'static')]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_URL = '/public/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = str(BASE_DIR / 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
