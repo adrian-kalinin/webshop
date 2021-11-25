@@ -40,7 +40,7 @@ class ProductDetailView(generic.DetailView):
 class ProductCreateView(PermissionRequiredMixin, generic.CreateView):
     template_name = 'catalogue/product_create.html'
     form_class = ProductModelForm
-    permission_required = 'product.create'
+    permission_required = 'catalogue.add_product'
 
     def get_success_url(self):
         return reverse('catalogue:list')
@@ -49,7 +49,7 @@ class ProductCreateView(PermissionRequiredMixin, generic.CreateView):
 class ProductUpdateView(PermissionRequiredMixin, generic.UpdateView):
     template_name = 'catalogue/product_update.html'
     form_class = ProductModelForm
-    permission_required = 'product.change'
+    permission_required = 'catalogue.change_product'
 
     def get_object(self, queryset=None):
         pc = self.kwargs.get('product_code')
@@ -61,7 +61,7 @@ class ProductUpdateView(PermissionRequiredMixin, generic.UpdateView):
 
 class ProductDeleteView(PermissionRequiredMixin, generic.DeleteView):
     template_name = 'catalogue/product_delete.html'
-    permission_required = 'product.delete'
+    permission_required = 'catalogue.delete_product'
 
     def get_object(self, queryset=None):
         pc = self.kwargs.get('product_code')
