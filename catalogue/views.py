@@ -15,7 +15,7 @@ class ProductListView(generic.ListView):
         queryset = Product.objects.all()
 
         if query := self.request.GET.get('q'):
-            queryset = queryset.filter(Q(title__contains=query) | Q(product_code__exact=query))
+            queryset = queryset.filter(Q(title__icontains=query) | Q(product_code__exact=query))
 
         sort_value = self.request.GET.get('sort') or '-created_at'
 
