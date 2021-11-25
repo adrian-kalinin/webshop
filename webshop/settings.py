@@ -130,8 +130,8 @@ if not DEBUG:
 
     AWS_DEFAULT_ACL = 'public-read'
 
-    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
-    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+    STATICFILES_STORAGE = 'webshop.custom_storages.StaticStorage'
+    DEFAULT_FILE_STORAGE = 'webshop.custom_storages.MediaStorage'
 
     STATIC_URL = '{}/{}/'.format(AWS_S3_ENDPOINT_URL, 'static')
     STATIC_ROOT = 'static/'
